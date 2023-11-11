@@ -3,10 +3,9 @@ import Constants from "expo-constants";
 import Text from "./Text";
 import theme from "../theme";
 import { Link } from "react-router-native";
-import { useApolloClient, useQuery } from "@apollo/client";
-import { IS_LOGGED_IN } from "../graphql/queries";
-import { useEffect, useState } from "react";
+import { useApolloClient } from "@apollo/client";
 import useAuthStorage from "../hooks/useAuthStorage";
+import isSignedIn from "../utils/isSignedIn";
 
 const styles = StyleSheet.create({
   container: {
@@ -21,11 +20,7 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data } = useQuery(IS_LOGGED_IN);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    setIsLoggedIn(data && data.me && data.me.id);
-  }, [data]);
+  const isLoggedIn = isSignedIn();
 
   const apolloClient = useApolloClient();
   const authStorage = useAuthStorage();

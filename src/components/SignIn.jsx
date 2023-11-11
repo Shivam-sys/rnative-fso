@@ -6,6 +6,8 @@ import theme from "../theme";
 import Text from "./Text";
 import useSignIn from "../hooks/useSignIn";
 import { useNavigate } from "react-router-native";
+import { ApolloError } from "@apollo/client";
+import { useState } from "react";
 
 const validationSchema = yup.object().shape({
   username: yup
@@ -20,6 +22,7 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
   const [signIn] = useSignIn();
+  const [signInError, setSignInError] = useState(false);
   const navigate = useNavigate();
   const onSubmit = async (values) => {
     const { username, password } = values;
@@ -28,9 +31,19 @@ const SignIn = () => {
       if (data.authenticate.accessToken) {
         navigate("/");
       }
-    } catch (e) {
-      console.log("error:", e);
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        const errorMessage = error.message;
+        setSignInError(errorMessage);
+      } else {
+        setSignInError("An unexpected error occurred.");
+        console.log("error:", error);
+      }
     }
+  };
+  const handleInputClick = () => {
+    // Clear the error message when an input field is clicked
+    setSignInError(false);
   };
   return (
     <Formik
@@ -40,11 +53,16 @@ const SignIn = () => {
     >
       {({ handleSubmit, isValid, dirty }) => (
         <View style={{ padding: 10, gap: 5 }}>
-          <FormikTextInput name="username" placeholder="Username" />
+          <FormikTextInput
+            name="username"
+            placeholder="Username"
+            onFocus={handleInputClick}
+          />
           <FormikTextInput
             name="password"
             placeholder="Password"
             secureTextEntry
+            onFocus={handleInputClick}
           />
           <Pressable
             onPress={handleSubmit}
@@ -63,6 +81,7 @@ const SignIn = () => {
               Sign In
             </Text>
           </Pressable>
+          {signInError && <Text color={"red"}>{signInError}</Text>}
         </View>
       )}
     </Formik>

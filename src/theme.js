@@ -7,6 +7,7 @@ const theme = {
     primary: "#0366d6",
     secondary: "#24292e",
     white: "#FFFFFF",
+    red: "red",
   },
   fontSizes: {
     body: 14,
