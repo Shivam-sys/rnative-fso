@@ -4,6 +4,7 @@ import theme from "../theme";
 import { valueInK } from "../utils";
 import { useParams } from "react-router-native";
 import { useRepository } from "../hooks/useRepositories";
+import * as Linking from "expo-linking";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -34,6 +35,11 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.primary,
     padding: 5,
     borderRadius: 5,
+  },
+  largeButton: {
+    padding: 10,
+  },
+  widthFitsContent: {
     alignSelf: "flex-start",
   },
   container2: {
@@ -69,7 +75,7 @@ const RepositoryItem = ({ item }) => {
           <Text fontWeight={"bold"}>{repository.fullName}</Text>
           <Text color={"textSecondary"}>{repository.description}</Text>
           <View>
-            <Pressable style={styles.button}>
+            <Pressable style={[styles.button, styles.widthFitsContent]}>
               <Text color={"white"}>{repository.language}</Text>
             </Pressable>
           </View>
@@ -109,6 +115,22 @@ const RepositoryItem = ({ item }) => {
           </Text>
         </View>
       </View>
+      {repository?.url && (
+        <Pressable
+          style={[styles.button, styles.largeButton]}
+          onPress={() => {
+            Linking.openURL(repository.url);
+          }}
+        >
+          <Text
+            color={"white"}
+            fontWeight={"bold"}
+            style={{ textAlign: "center" }}
+          >
+            Open in Github
+          </Text>
+        </Pressable>
+      )}
     </View>
   );
 };
