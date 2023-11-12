@@ -2,6 +2,8 @@ import { Image, Pressable, StyleSheet, View } from "react-native";
 import Text from "./Text";
 import theme from "../theme";
 import { valueInK } from "../utils";
+import { useParams } from "react-router-native";
+import { useRepository } from "../hooks/useRepositories";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -43,58 +45,72 @@ const styles = StyleSheet.create({
   },
 });
 
-const RepositoryItem = ({ item }) => (
-  <View style={styles.wrapper} testID="repositoryItem">
-    <View style={styles.container1}>
-      <Image
-        source={require("../../assets/react-logo.png")}
-        style={styles.image}
-      />
-      <View style={styles.detailsContainer}>
-        <Text fontWeight={"bold"}>{item.fullName}</Text>
-        <Text color={"textSecondary"}>{item.description}</Text>
+const RepositoryItem = ({ item }) => {
+  let { repoId } = useParams();
+
+  const { repository, loading, error } = useRepository({ item, repoId });
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error: {error?.message}</Text>;
+  }
+
+  return (
+    <View style={styles.wrapper} testID="repositoryItem">
+      <View style={styles.container1}>
+        <Image
+          source={require("../../assets/react-logo.png")}
+          style={styles.image}
+        />
+        <View style={styles.detailsContainer}>
+          <Text fontWeight={"bold"}>{repository.fullName}</Text>
+          <Text color={"textSecondary"}>{repository.description}</Text>
+          <View>
+            <Pressable style={styles.button}>
+              <Text color={"white"}>{repository.language}</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+      <View style={styles.container2}>
         <View>
-          <Pressable style={styles.button}>
-            <Text color={"white"}>{item.language}</Text>
-          </Pressable>
+          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+            {valueInK(repository.stargazersCount)}
+          </Text>
+          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+            Stars
+          </Text>
+        </View>
+        <View>
+          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+            {valueInK(repository.forksCount)}
+          </Text>
+          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+            Forks
+          </Text>
+        </View>
+        <View>
+          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+            {repository.reviewCount}
+          </Text>
+          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+            Reviews
+          </Text>
+        </View>
+        <View>
+          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+            {repository.ratingAverage}
+          </Text>
+          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+            Rating
+          </Text>
         </View>
       </View>
     </View>
-    <View style={styles.container2}>
-      <View>
-        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-          {valueInK(item.stargazersCount)}
-        </Text>
-        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-          Stars
-        </Text>
-      </View>
-      <View>
-        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-          {valueInK(item.forksCount)}
-        </Text>
-        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-          Forks
-        </Text>
-      </View>
-      <View>
-        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-          {item.reviewCount}
-        </Text>
-        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-          Reviews
-        </Text>
-      </View>
-      <View>
-        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-          {item.ratingAverage}
-        </Text>
-        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-          Rating
-        </Text>
-      </View>
-    </View>
-  </View>
-);
+  );
+};
 
 export default RepositoryItem;

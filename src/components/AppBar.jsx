@@ -33,9 +33,11 @@ const AppBar = () => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
-        <Text color="white" fontWeight={"bold"} style={styles.subHeading}>
-          Repositories
-        </Text>
+        <Link to="/">
+          <Text color="white" fontWeight={"bold"} style={styles.subHeading}>
+            Repositories
+          </Text>
+        </Link>
         <Link
           to="/signin"
           style={{ marginLeft: 10 }}
