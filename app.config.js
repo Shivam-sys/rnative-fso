@@ -21,11 +21,15 @@ export default {
       foregroundImage: "./assets/adaptive-icon.png",
       backgroundColor: "#ffffff",
     },
+    package: "com.shivam.repositoryApp",
   },
   web: {
     favicon: "./assets/favicon.png",
   },
   extra: {
     apolloUrl: process.env.APOLLO_URI,
+    eas: {
+      projectId: "4c6d4b8a-dbf3-4213-bd46-e13cf3cd76c3",
+    },
   },
 };

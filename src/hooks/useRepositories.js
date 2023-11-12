@@ -25,10 +25,7 @@ const useRepositories = () => {
   });
 
   useEffect(() => {
-    if (data)
-      if (data?.repositories?.edges?.length)
-        // Get the nodes from the edges array
-        setRepositories(data.repositories.edges.map((edge) => edge.node));
+    if (data) if (data?.repositories) setRepositories(data.repositories);
   }, [data]);
 
   return { repositories, loading, error };

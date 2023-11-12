@@ -44,59 +44,57 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => (
-  <>
-    <View style={styles.wrapper}>
-      <View style={styles.container1}>
-        <Image
-          source={require("../../assets/react-logo.png")}
-          style={styles.image}
-        />
-        <View style={styles.detailsContainer}>
-          <Text fontWeight={"bold"}>{item.fullName}</Text>
-          <Text color={"textSecondary"}>{item.description}</Text>
-          <View>
-            <Pressable style={styles.button}>
-              <Text color={"white"}>{item.language}</Text>
-            </Pressable>
-          </View>
-        </View>
-      </View>
-      <View style={styles.container2}>
+  <View style={styles.wrapper} testID="repositoryItem">
+    <View style={styles.container1}>
+      <Image
+        source={require("../../assets/react-logo.png")}
+        style={styles.image}
+      />
+      <View style={styles.detailsContainer}>
+        <Text fontWeight={"bold"}>{item.fullName}</Text>
+        <Text color={"textSecondary"}>{item.description}</Text>
         <View>
-          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-            {valueInK(item.stargazersCount)}
-          </Text>
-          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-            Stars
-          </Text>
-        </View>
-        <View>
-          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-            {valueInK(item.forksCount)}
-          </Text>
-          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-            Forks
-          </Text>
-        </View>
-        <View>
-          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-            {item.reviewCount}
-          </Text>
-          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-            Reviews
-          </Text>
-        </View>
-        <View>
-          <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
-            {item.ratingAverage}
-          </Text>
-          <Text color={"textSecondary"} style={{ textAlign: "center" }}>
-            Rating
-          </Text>
+          <Pressable style={styles.button}>
+            <Text color={"white"}>{item.language}</Text>
+          </Pressable>
         </View>
       </View>
     </View>
-  </>
+    <View style={styles.container2}>
+      <View>
+        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+          {valueInK(item.stargazersCount)}
+        </Text>
+        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+          Stars
+        </Text>
+      </View>
+      <View>
+        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+          {valueInK(item.forksCount)}
+        </Text>
+        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+          Forks
+        </Text>
+      </View>
+      <View>
+        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+          {item.reviewCount}
+        </Text>
+        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+          Reviews
+        </Text>
+      </View>
+      <View>
+        <Text fontWeight={"bold"} style={{ textAlign: "center" }}>
+          {item.ratingAverage}
+        </Text>
+        <Text color={"textSecondary"} style={{ textAlign: "center" }}>
+          Rating
+        </Text>
+      </View>
+    </View>
+  </View>
 );
 
 export default RepositoryItem;

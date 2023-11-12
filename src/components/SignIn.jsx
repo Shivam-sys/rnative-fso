@@ -20,27 +20,11 @@ const validationSchema = yup.object().shape({
     .required("Password is required"),
 });
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
-  const [signInError, setSignInError] = useState(false);
-  const navigate = useNavigate();
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-    try {
-      const data = await signIn({ username, password });
-      if (data.authenticate.accessToken) {
-        navigate("/");
-      }
-    } catch (error) {
-      if (error instanceof ApolloError) {
-        const errorMessage = error.message;
-        setSignInError(errorMessage);
-      } else {
-        setSignInError("An unexpected error occurred.");
-        console.log("error:", error);
-      }
-    }
-  };
+export const SignInContainer = ({
+  onSubmit,
+  signInError = false,
+  setSignInError = () => {},
+}) => {
   const handleInputClick = () => {
     // Clear the error message when an input field is clicked
     setSignInError(false);
@@ -65,8 +49,9 @@ const SignIn = () => {
             onFocus={handleInputClick}
           />
           <Pressable
+            testID="signInButton"
             onPress={handleSubmit}
-            disabled={!isValid || !dirty}
+            // disabled={!isValid || !dirty}
             style={{
               height: 40,
               display: "flex",
@@ -85,6 +70,38 @@ const SignIn = () => {
         </View>
       )}
     </Formik>
+  );
+};
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const navigate = useNavigate();
+  const [signInError, setSignInError] = useState(false);
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+    try {
+      const data = await signIn({ username, password });
+      if (data.authenticate.accessToken) {
+        navigate("/");
+      }
+    } catch (error) {
+      if (error instanceof ApolloError) {
+        const errorMessage = error.message;
+        setSignInError(errorMessage);
+      } else {
+        setSignInError("An unexpected error occurred.");
+        console.log("error:", error);
+      }
+    }
+  };
+
+  return (
+    <SignInContainer
+      onSubmit={onSubmit}
+      signInError={signInError}
+      setSignInError={setSignInError}
+    />
   );
 };
 
