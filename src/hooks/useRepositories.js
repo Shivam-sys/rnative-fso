@@ -3,11 +3,7 @@ import { useQuery } from "@apollo/client";
 
 import { GET_REPOSITORIES, GET_REPOSITORY } from "../graphql/queries";
 
-export const useRepository = ({ item, repoId }) => {
-  if (item) {
-    return { repository: item, loading: false, error: null };
-  }
-
+export const useRepository = (repoId) => {
   const [repository, setRepository] = useState({});
   const { loading, error, data } = useQuery(GET_REPOSITORY, {
     variables: { id: repoId },

@@ -54,7 +54,9 @@ const styles = StyleSheet.create({
 const RepositoryItem = ({ item }) => {
   let { repoId } = useParams();
 
-  const { repository, loading, error } = useRepository({ item, repoId });
+  const { repository, loading, error } = item
+    ? { repository: item, loading: false, error: null }
+    : useRepository(repoId);
 
   if (loading) {
     return <Text>Loading...</Text>;
