@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
 
-import { GET_REPOSITORIES, GET_REPOSITORY } from "../graphql/queries";
+import {
+  GET_REPOSITORIES,
+  GET_REPOSITORY,
+  GET_REPOSITORY_REVIEW,
+} from "../graphql/queries";
 
 export const useRepository = (repoId) => {
   const [repository, setRepository] = useState({});
@@ -15,6 +19,20 @@ export const useRepository = (repoId) => {
   }, [data]);
 
   return { repository, loading, error };
+};
+
+export const useRepositoryReviews = (repoId) => {
+  const [repositoryReviews, setRepositoryReviews] = useState({});
+  const { loading, error, data } = useQuery(GET_REPOSITORY_REVIEW, {
+    variables: { id: repoId },
+    fetchPolicy: "cache-and-network",
+  });
+
+  useEffect(() => {
+    if (data && data.repository) setRepositoryReviews(data.repository);
+  }, [data]);
+
+  return { repositoryReviews, loading, error };
 };
 
 const useRepositories = () => {

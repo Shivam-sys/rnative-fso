@@ -66,6 +66,8 @@ const RepositoryItem = ({ item }) => {
     return <Text>Error: {error?.message}</Text>;
   }
 
+  const showButton = repository?.url;
+
   return (
     <View style={styles.wrapper} testID="repositoryItem">
       <View style={styles.container1}>
@@ -117,7 +119,7 @@ const RepositoryItem = ({ item }) => {
           </Text>
         </View>
       </View>
-      {repository?.url && (
+      {showButton && (
         <Pressable
           style={[styles.button, styles.largeButton]}
           onPress={() => {
