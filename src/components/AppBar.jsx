@@ -61,6 +61,15 @@ const AppBar = () => {
             </Text>
           </>
         </Link>
+        {!isLoggedIn && (
+          <Link to="/signup" style={{ marginLeft: 10 }}>
+            <>
+              <Text color="white" fontWeight={"bold"} style={styles.subHeading}>
+                Sign Up
+              </Text>
+            </>
+          </Link>
+        )}
       </ScrollView>
     </View>
   );
