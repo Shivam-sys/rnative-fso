@@ -60,8 +60,8 @@ export const GET_REPOSITORY_REVIEW = gql`
 `;
 
 export const SIGNIN = gql`
-  mutation SignIn($username: String!, $password: String!) {
-    authenticate(credentials: { username: $username, password: $password }) {
+  mutation Mutation($credentials: AuthenticateInput) {
+    authenticate(credentials: $credentials) {
       accessToken
     }
   }

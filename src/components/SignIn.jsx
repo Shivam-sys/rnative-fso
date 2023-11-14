@@ -25,7 +25,7 @@ export const SignInContainer = ({
   signInError = false,
   setSignInError = () => {},
 }) => {
-  const handleInputClick = () => {
+  const resetSignInError = () => {
     // Clear the error message when an input field is clicked
     setSignInError(false);
   };
@@ -40,13 +40,13 @@ export const SignInContainer = ({
           <FormikTextInput
             name="username"
             placeholder="Username"
-            onFocus={handleInputClick}
+            onFocus={resetSignInError}
           />
           <FormikTextInput
             name="password"
             placeholder="Password"
             secureTextEntry
-            onFocus={handleInputClick}
+            onFocus={resetSignInError}
           />
           <Pressable
             testID="signInButton"
