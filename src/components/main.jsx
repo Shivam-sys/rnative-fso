@@ -6,6 +6,7 @@ import SignIn from "./SignIn";
 import isSignedIn from "../utils/isSignedIn";
 // import RepositoryItem from "./RepositoryItem";
 import SingleRepository from "./SingleRepository";
+import ReviewForm from "./ReviewForm";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,14 +23,19 @@ const Main = () => {
       <AppBar />
       <Routes>
         {isLoggedIn ? (
-          <Route path="/" element={<RepositoryList />} />
+          <>
+            <Route path="/" element={<RepositoryList />} />
+            <Route path="/createReview" element={<ReviewForm />} />
+          </>
         ) : (
-          <Route path="/" element={<SignIn />} />
+          <>
+            <Route path="/" element={<SignIn />} />
+            <Route path="/createReview" element={<SignIn />} />
+          </>
         )}
         <Route path="/signin" element={<SignIn />} />
-        {/* <Route path="/repository/:repoId" element={<RepositoryItem />} /> */}
         <Route path="/repository/:repoId" element={<SingleRepository />} />
-        <Route path="*" elementr={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </View>
   );
