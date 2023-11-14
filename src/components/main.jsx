@@ -28,10 +28,7 @@ const Main = () => {
             <Route path="/createReview" element={<ReviewForm />} />
           </>
         ) : (
-          <>
-            <Route path="/" element={<SignIn />} />
-            <Route path="/createReview" element={<SignIn />} />
-          </>
+          <Route path="/" element={<SignIn />} />
         )}
         <Route path="/signin" element={<SignIn />} />
         <Route path="/repository/:repoId" element={<SingleRepository />} />
