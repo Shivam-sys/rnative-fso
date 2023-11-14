@@ -20,6 +20,28 @@ const validationSchema = yup.object().shape({
     .required("Password is required"),
 });
 
+/**
+ * A button to do quick login
+ * Must be removed before deploying to production
+ */
+const MagicLoginButton = ({ onPress }) => (
+  <Pressable
+    onPress={onPress}
+    style={{
+      height: 40,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "green",
+      borderRadius: 5,
+    }}
+  >
+    <Text color="white" fontWeight={"bold"}>
+      Magic Log In
+    </Text>
+  </Pressable>
+);
+
 export const SignInContainer = ({
   onSubmit,
   signInError = false,
@@ -67,6 +89,12 @@ export const SignInContainer = ({
             </Text>
           </Pressable>
           {signInError && <Text color={"red"}>{signInError}</Text>}
+          {/* @TODO : Remove this once development finishes. */}
+          <MagicLoginButton
+            onPress={() => {
+              onSubmit({ username: "kalle", password: "password" });
+            }}
+          />
         </View>
       )}
     </Formik>
