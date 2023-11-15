@@ -67,6 +67,23 @@ export const SIGNIN = gql`
   }
 `;
 
+// CreateUserInput looks like -
+// {
+//   "user": {
+//     "username": null,
+//     "password": null
+//   }
+// }
+
+export const SIGNUP = gql`
+  mutation CreateUser($user: CreateUserInput) {
+    createUser(user: $user) {
+      id
+      username
+    }
+  }
+`;
+
 export const IS_LOGGED_IN = gql`
   query {
     me {
