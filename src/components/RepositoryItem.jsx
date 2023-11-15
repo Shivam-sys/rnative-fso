@@ -72,7 +72,7 @@ const RepositoryItem = ({ item }) => {
     <View style={styles.wrapper} testID="repositoryItem">
       <View style={styles.container1}>
         <Image
-          source={require("../../assets/react-logo.png")}
+          source={{ uri: repository.ownerAvatarUrl }}
           style={styles.image}
         />
         <View style={styles.detailsContainer}>
