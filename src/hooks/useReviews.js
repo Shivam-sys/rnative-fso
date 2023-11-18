@@ -1,5 +1,9 @@
-import { useQuery } from "@apollo/client";
-import { GET_CURRENT_USER, GET_REPOSITORY_REVIEW } from "../graphql/queries";
+import { useMutation, useQuery } from "@apollo/client";
+import {
+  DELETE_REVIEW,
+  GET_CURRENT_USER,
+  GET_REPOSITORY_REVIEW,
+} from "../graphql/queries";
 import { useEffect, useState } from "react";
 
 export const useRepositoryReviews = (repoId) => {
@@ -18,7 +22,7 @@ export const useRepositoryReviews = (repoId) => {
 
 export const useMyReviews = () => {
   const [myReviews, setMyReviews] = useState({});
-  const { loading, error, data } = useQuery(GET_CURRENT_USER, {
+  const { loading, error, data, refetch } = useQuery(GET_CURRENT_USER, {
     variables: { includeReviews: true },
     fetchPolicy: "cache-and-network",
   });
@@ -27,5 +31,19 @@ export const useMyReviews = () => {
     if (data && data?.me && data?.me?.reviews) setMyReviews(data.me.reviews);
   }, [data]);
 
-  return { myReviews, loading, error };
+  return { myReviews, loading, error, refetch };
+};
+
+export const useDeleteReview = () => {
+  const [deleteReview] = useMutation(DELETE_REVIEW);
+  return async (deleteReviewId) => {
+    try {
+      const { data } = await deleteReview({
+        variables: { deleteReviewId },
+      });
+      return { data };
+    } catch (err) {
+      return { error: err?.message || "Something went wrong." };
+    }
+  };
 };

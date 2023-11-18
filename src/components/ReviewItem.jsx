@@ -1,8 +1,9 @@
-import { Pressable, StyleSheet, View } from "react-native";
+import { Alert, Pressable, StyleSheet, View } from "react-native";
 import theme from "../theme";
 import Text from "./Text";
 import { parseISO, format } from "date-fns";
 import { useNavigate } from "react-router-native";
+import { useDeleteReview, useMyReviews } from "../hooks/useReviews";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -63,6 +64,32 @@ const ReviewItem = ({ review, loading, error, ...props }) => {
   };
 
   const navigate = useNavigate();
+  const deleteReview = useDeleteReview();
+  const { refetch } = useMyReviews();
+
+  const deleteHandler = (id) => {
+    Alert.alert(
+      "Delete Review",
+      "Are you sure you want to delete this review?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: async () => {
+            const { data, error } = await deleteReview(id);
+            if (data && data.deleteReview) refetch();
+            else if (error) Alert.alert(error);
+            else Alert.alert("There was an error deleting the review");
+          },
+          style: "destructive",
+        },
+      ]
+    );
+  };
 
   return (
     <View style={styles.wrapper} {...props}>
@@ -91,7 +118,12 @@ const ReviewItem = ({ review, loading, error, ...props }) => {
               View repository
             </Text>
           </Pressable>
-          <Pressable style={[styles.button, styles.redButton]}>
+          <Pressable
+            style={[styles.button, styles.redButton]}
+            onPress={() => {
+              deleteHandler(review.id);
+            }}
+          >
             <Text color={"white"} fontWeight={"bold"}>
               Delete review
             </Text>
