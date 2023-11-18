@@ -40,13 +40,18 @@ const AppBar = () => {
         </Link>
 
         {isLoggedIn && (
-          <Link to="/createReview" style={{ marginLeft: 10 }}>
-            <>
+          <>
+            <Link to="/createReview" style={{ marginLeft: 10 }}>
               <Text color="white" fontWeight={"bold"} style={styles.subHeading}>
                 Create a review
               </Text>
-            </>
-          </Link>
+            </Link>
+            <Link to="/myReviews" style={{ marginLeft: 10 }}>
+              <Text color="white" fontWeight={"bold"} style={styles.subHeading}>
+                My reviews
+              </Text>
+            </Link>
+          </>
         )}
         <Link
           to="/signin"
