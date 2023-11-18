@@ -102,7 +102,7 @@ export const SignInContainer = ({
 };
 
 const SignIn = () => {
-  const [signIn] = useSignIn();
+  const { signIn } = useSignIn();
   const navigate = useNavigate();
   const [signInError, setSignInError] = useState(false);
 

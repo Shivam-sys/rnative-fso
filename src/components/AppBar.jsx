@@ -3,9 +3,8 @@ import Constants from "expo-constants";
 import Text from "./Text";
 import theme from "../theme";
 import { Link } from "react-router-native";
-import { useApolloClient } from "@apollo/client";
-import useAuthStorage from "../hooks/useAuthStorage";
 import isSignedIn from "../utils/isSignedIn";
+import useSignIn from "../hooks/useSignIn";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,13 +21,7 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   const isLoggedIn = isSignedIn();
 
-  const apolloClient = useApolloClient();
-  const authStorage = useAuthStorage();
-
-  const signOut = async () => {
-    await authStorage.removeAccessToken();
-    await apolloClient.resetStore();
-  };
+  const { signOut } = useSignIn();
 
   return (
     <View style={styles.container}>
@@ -57,7 +50,13 @@ const AppBar = () => {
           to="/signin"
           style={{ marginLeft: 10 }}
           onPress={async () => {
-            if (isLoggedIn) await signOut();
+            if (isLoggedIn) {
+              try {
+                await signOut();
+              } catch (error) {
+                console.log(error.message);
+              }
+            }
           }}
         >
           <>

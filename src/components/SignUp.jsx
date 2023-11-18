@@ -30,8 +30,8 @@ const validationSchema = yup.object().shape({
 const SignUp = () => {
   const [signUpError, setSignUpError] = useState(false);
   const navigate = useNavigate();
-  const [signUp] = useSignUp();
-  const [signIn] = useSignIn();
+  const { signUp } = useSignUp();
+  const { signIn } = useSignIn();
 
   const resetSignUpError = () => {
     // Clear the error message when an input field is clicked

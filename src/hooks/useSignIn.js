@@ -23,7 +23,7 @@ const useSignIn = () => {
     await apolloClient.resetStore();
   };
 
-  return [signIn, signOut];
+  return { signIn, signOut };
 };
 
 export default useSignIn;

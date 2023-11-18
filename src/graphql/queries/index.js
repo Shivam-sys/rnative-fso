@@ -92,7 +92,7 @@ export const SIGNUP = gql`
   }
 `;
 
-export const IS_LOGGED_IN = gql`
+export const GET_CURRENT_USER = gql`
   query {
     me {
       id

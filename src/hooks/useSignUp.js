@@ -10,7 +10,7 @@ const useSignUp = () => {
     return data;
   };
 
-  return [signUp];
+  return { signUp };
 };
 
 export default useSignUp;
