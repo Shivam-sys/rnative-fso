@@ -1,10 +1,12 @@
 import { FlatList, View, StyleSheet, Pressable } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../hooks/useRepositories";
-import Text from "./Text";
 import { useNavigate } from "react-router-native";
 import { useState } from "react";
-import { Button, Menu, Provider as PaperProvider } from "react-native-paper";
+import { Provider as PaperProvider } from "react-native-paper";
+import SortingSelector from "./SortingSelector";
+import SearchBox from "./SearchBox";
+import { selectionOptions } from "../utils";
 
 const styles = StyleSheet.create({
   separator: {
@@ -15,81 +17,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const orderBy = { createdAt: "CREATED_AT", ratingAverage: "RATING_AVERAGE" };
-const orderDirection = { asc: "ASC", desc: "DESC" };
-
-const SortingSelector = ({ sortValues, setSortValues }) => {
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const showMenu = () => setIsMenuVisible(true);
-  const hideMenu = () => setIsMenuVisible(false);
-  const [selection, setSelection] = useState(sortValues);
-  const selectionOptions = [
-    {
-      title: "Latest repositories",
-      values: {
-        orderBy: orderBy.createdAt,
-        orderDirection: orderDirection.desc,
-      },
-    },
-    {
-      title: "Oldest repositories",
-      values: {
-        orderBy: orderBy.createdAt,
-        orderDirection: orderDirection.asc,
-      },
-    },
-    {
-      title: "Highest rated repositories",
-      values: {
-        orderBy: orderBy.ratingAverage,
-        orderDirection: orderDirection.desc,
-      },
-    },
-    {
-      title: "Lowest rated repositories",
-      values: {
-        orderBy: orderBy.ratingAverage,
-        orderDirection: orderDirection.asc,
-      },
-    },
-  ];
-
-  return (
-    <View>
-      <Menu
-        visible={isMenuVisible}
-        onDismiss={hideMenu}
-        anchor={
-          <Button onPress={showMenu}>
-            {selection?.title ? `Sorted : ${selection?.title}` : "Select Sort"}
-          </Button>
-        }
-      >
-        {selectionOptions.map(
-          (option) =>
-            selection?.title !== option.title && (
-              <Menu.Item
-                key={option.title}
-                onPress={async () => {
-                  setSelection(option);
-                  setSortValues(option);
-                  hideMenu();
-                }}
-                title={option.title}
-              />
-            )
-        )}
-      </Menu>
-    </View>
-  );
-};
-
 export const ItemSeparator = () => <View style={styles.separator} />;
 
 export const RepositoryListContainer = ({
   repositories,
+  buttonText,
   setSortValues,
-  sortValues,
+  setSearchTerm,
 }) => {
   const navigate = useNavigate();
   const repositoryNodes = repositories.edges
@@ -103,10 +37,13 @@ export const RepositoryListContainer = ({
         ItemSeparatorComponent={ItemSeparator}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
-          <SortingSelector
-            setSortValues={setSortValues}
-            sortValues={sortValues}
-          />
+          <>
+            <SearchBox setSearchTerm={setSearchTerm} />
+            <SortingSelector
+              setSortValues={setSortValues}
+              buttonText={buttonText}
+            />
+          </>
         }
         renderItem={(node) => {
           return (
@@ -121,16 +58,17 @@ export const RepositoryListContainer = ({
 };
 
 const RepositoryList = () => {
-  const [sortValues, setSortValues] = useState();
-  const { repositories, loading, error } = useRepositories(sortValues);
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error?.message}</Text>;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortValues, setSortValues] = useState(selectionOptions[0]);
+
+  const { repositories } = useRepositories(sortValues, searchTerm);
 
   return (
     <RepositoryListContainer
       repositories={repositories}
-      sortValues={sortValues}
+      buttonText={sortValues?.title}
       setSortValues={setSortValues}
+      setSearchTerm={setSearchTerm}
     />
   );
 };

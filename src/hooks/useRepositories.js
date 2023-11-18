@@ -35,8 +35,8 @@ export const useRepositoryReviews = (repoId) => {
   return { repositoryReviews, loading, error };
 };
 
-const useRepositories = (sortValues) => {
-  /* Using Fetch method to get repositories 
+const useRepositories = (sortValues, searchTerm) => {
+  /* Using Fetch method to get repositories
     const [repositories, setRepositories] = useState();
     const [loading, setLoading] = useState(false);
     const fetchRepositories = async () => {
@@ -52,7 +52,7 @@ const useRepositories = (sortValues) => {
   const [repositories, setRepositories] = useState([]);
 
   const { data, loading, error } = useQuery(GET_REPOSITORIES, {
-    variables: sortValues?.values,
+    variables: { ...sortValues?.values, searchKeyword: searchTerm },
     fetchPolicy: "cache-and-network",
   });
 
