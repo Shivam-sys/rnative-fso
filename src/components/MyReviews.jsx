@@ -12,7 +12,9 @@ const MyReviews = () => {
     error: reviewError,
   } = useMyReviews();
   const reviewsNodes = reviews?.edges
-    ? reviews?.edges?.map((edge) => edge.node)
+    ? reviews?.edges?.map((edge) => {
+        return { ...edge.node, showAction: true };
+      })
     : [];
 
   if (!reviewsNodes.length) {
@@ -25,6 +27,7 @@ const MyReviews = () => {
       </Text>
     );
   }
+
   return (
     <FlatList
       data={reviewsNodes}

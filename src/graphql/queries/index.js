@@ -105,6 +105,7 @@ export const GET_CURRENT_USER = gql`
             createdAt
             text
             repository {
+              id
               fullName
             }
           }
