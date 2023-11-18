@@ -19,8 +19,12 @@ const useSignIn = () => {
   };
 
   const signOut = async () => {
-    await authStorage.removeAccessToken();
-    await apolloClient.resetStore();
+    try {
+      await authStorage.removeAccessToken();
+      await apolloClient.resetStore();
+    } catch (err) {
+      console.log("Couldn't signOut");
+    }
   };
 
   return { signIn, signOut };
