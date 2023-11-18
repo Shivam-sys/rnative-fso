@@ -23,7 +23,7 @@ const useSignIn = () => {
       await authStorage.removeAccessToken();
       await apolloClient.resetStore();
     } catch (err) {
-      console.log("Couldn't signOut");
+      console.error("Couldn't signOut");
     }
   };
 

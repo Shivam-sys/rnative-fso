@@ -119,7 +119,7 @@ const SignIn = () => {
         setSignInError(errorMessage);
       } else {
         setSignInError("An unexpected error occurred.");
-        console.log("error:", error);
+        console.error("error:", error);
       }
     }
   };

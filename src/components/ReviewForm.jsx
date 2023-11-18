@@ -58,7 +58,7 @@ const ReviewForm = () => {
         setCreateReviewError(errorMessage);
       } else {
         setCreateReviewError("An unexpected error occurred.");
-        console.log("error:", error);
+        console.error("error:", error);
       }
     }
   };
